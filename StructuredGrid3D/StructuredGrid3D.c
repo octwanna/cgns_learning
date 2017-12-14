@@ -4,25 +4,22 @@
 
 #define CHKERRQ(ret) if((ret)) cg_error_exit()
 
-/*#define NX 50*/
-/*#define NY 25*/
-/*#define NZ 10*/
-
 #define PHYSICAL_DIMENSION 3
+#define CELL_DIMENSION 3
 
 int main(int argc, char *argv[])
 {
 	int err;
 	int i, j, k, entry;
 
-	int cellDimension = 3;
+	int cellDimension = CELL_DIMENSION;
 	int physicalDimension = PHYSICAL_DIMENSION;
 
 	int NX, NY, NZ;
 	double *x, *y, *z;
 
 	int file;
-	char fileName[] = "/home/guesser/cgns_examples/output/generate_structured_simple.cgns";
+	char fileName[] = "/home/guesser/cgns_examples/output/StructuredGrid3D.cgns";
 
 	int base;
 	char baseName[] = "Simple structured grid";
