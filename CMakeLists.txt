@@ -96,7 +96,7 @@ endmacro ()
 ##################################################################
 add_subdirectory (structured_grid_simple)
 add_subdirectory (my_structured_grid_simple)
-add_subdirectory (generate_structured_grid_simple)
+add_subdirectory (StructuredGrid3D)
 ##################################################################
 
 ##################################################################

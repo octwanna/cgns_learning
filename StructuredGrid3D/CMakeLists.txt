@@ -1,4 +1,4 @@
-project (generate_structured_grid_simple)
+project (StructuredGrid3D)
 
 file (GLOB_RECURSE ${PROJECT_NAME}_sources ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.c)
 
