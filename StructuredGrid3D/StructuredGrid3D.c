@@ -16,6 +16,9 @@ int main(int argc, char *argv[])
 	int physicalDimension = PHYSICAL_DIMENSION;
 
 	int NX, NY, NZ;
+	double LX, LY, LZ;
+	double dx, dy, dz;
+	double xPosition, yPosition, zPosition;
 	double *x, *y, *z;
 
 	int file;
@@ -36,14 +39,31 @@ int main(int argc, char *argv[])
 	long double c;
 
 	/* get user input */
-	if(argc!=4)
+	if(argc!=4 && argc!=7)
 	{
-		printf("Usage:\n program NX NY NZ\n\n");
+		fprintf(stdout, "Usage:\n");
+		fprintf(stdout, "\tprogram NX NY NZ\n");
+		fprintf(stdout, "or\n");
+		fprintf(stdout, "\tprogram NX NY NZ LX LY LZ\n");
 		exit(EXIT_FAILURE);
 	}
 	NX = atoi(argv[1]);
 	NY = atoi(argv[2]);
 	NZ = atoi(argv[3]);
+	if(argc==4)
+	{
+		LX = NX;
+		LY = NY;
+		LZ = NZ;
+	}
+	if(argc==7){
+		LX = atof(argv[4]);
+		LY = atof(argv[5]);
+		LZ = atof(argv[6]);
+	}
+	dx = LX/(NX-1);
+	dy = LY/(NY-1);
+	dz = LZ/(NZ-1);
 
 	/* Open file */
 	err = cg_open(fileName, CG_MODE_WRITE, &file); CHKERRQ(err);
@@ -72,16 +92,16 @@ int main(int argc, char *argv[])
 	y = (double *) malloc(NX*NY*NZ*sizeof(double**));
 	z = (double *) malloc(NX*NY*NZ*sizeof(double**));
 	/* Generate coordinates values */
-	for(i=0 ; i<NX ; ++i)
+	for(i=0, xPosition=0 ; i<NX ; ++i, xPosition+=dx)
 	{
-		for(j=0 ; j<NY ; ++j)
+		for(j=0, yPosition=0 ; j<NY ; ++j, yPosition+=dy)
 		{
-			for(k=0 ; k<NZ ; ++k)
+			for(k=0, zPosition=0 ; k<NZ ; ++k, zPosition+=dz)
 			{
 				entry = k+ j*NZ + i*NZ*NY ;
-				x[entry] = i;
-				y[entry] = j;
-				z[entry] = k;
+				x[entry] = xPosition;
+				y[entry] = yPosition;
+				z[entry] = zPosition;
 			}
 		}
 	}
