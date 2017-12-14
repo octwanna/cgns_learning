@@ -1,0 +1,24 @@
+# Folders
+output
+build*
+
+# Generally unused
+**.exe
+*.exe
+**.asv
+*.asv
+
+**.csv
+*.csv
+**.dat
+*.dat
+**.stackdump
+*.stackdump
+
+# Used
+**.png
+*.png
+**.pyc
+*.pyc
+**.log
+*.log
