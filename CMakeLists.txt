@@ -94,6 +94,7 @@ endmacro ()
 ##################################################################
 # COMPONENTS
 ##################################################################
+add_subdirectory (CGNSFile)
 add_subdirectory (structured_grid_simple)
 add_subdirectory (unstructuredGridSimple)
 add_subdirectory (my_structured_grid_simple)
