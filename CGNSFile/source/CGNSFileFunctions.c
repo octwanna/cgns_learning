@@ -1,14 +1,57 @@
 #include "CGNSFile/structure.h"
 #include "CGNSFile/functions.h"
 
-void getUserInput(int argc, char *argv[], cgns_unstructured_file *data)
+void getUserInput2D(int argc, char *argv[], cgns_unstructured_file *data)
 {
-	verifyUserInput(argc);
-	getNumberOfVerticesFromUserInput(argc, argv, data);
-	getDistancesFromUserInput(argc, argv, data);
+	verifyUserInput2D(argc);
+	getNumberOfVerticesFromUserInput2D(argc, argv, data);
+	getDistancesFromUserInput2D(argc, argv, data);
 }
 
-void verifyUserInput(int argc)
+void verifyUserInput2D(int argc)
+{
+	if(argc!=3 && argc!=5)
+	{
+		fprintf(stdout, "Usage:\n");
+		fprintf(stdout, "\tprogram NX NY\n");
+		fprintf(stdout, "or\n");
+		fprintf(stdout, "\tprogram NX NY LX LY\n");
+		exit(EXIT_FAILURE);
+	}
+	return ;
+}
+
+void getNumberOfVerticesFromUserInput2D(int argc, char *argv[], cgns_unstructured_file *data)
+{
+	data->nx = atoi(argv[1]);
+	data->ny = atoi(argv[2]);
+	return ;
+}
+
+void getDistancesFromUserInput2D(int argc, char *argv[], cgns_unstructured_file *data)
+{
+	if(argc==3)
+	{
+		data->lengthX = data->nx;
+		data->lengthY = data->ny;
+	}
+	if(argc==5){
+		data->lengthX = atof(argv[3]);
+		data->lengthY = atof(argv[4]);
+	}
+	data->dx = data->lengthX/(data->nx-1);
+	data->dy = data->lengthY/(data->ny-1);
+	return ;
+}
+
+void getUserInput3D(int argc, char *argv[], cgns_unstructured_file *data)
+{
+	verifyUserInput3D(argc);
+	getNumberOfVerticesFromUserInput3D(argc, argv, data);
+	getDistancesFromUserInput3D(argc, argv, data);
+}
+
+void verifyUserInput3D(int argc)
 {
 	if(argc!=4 && argc!=7)
 	{
@@ -21,14 +64,14 @@ void verifyUserInput(int argc)
 	return ;
 }
 
-void getNumberOfVerticesFromUserInput(int argc, char *argv[], cgns_unstructured_file *data)
+void getNumberOfVerticesFromUserInput3D(int argc, char *argv[], cgns_unstructured_file *data)
 {
 	data->nx = atoi(argv[1]);
 	data->ny = atoi(argv[2]);
 	data->nz = atoi(argv[3]);
 	return ;
 }
-void getDistancesFromUserInput(int argc, char *argv[], cgns_unstructured_file *data)
+void getDistancesFromUserInput3D(int argc, char *argv[], cgns_unstructured_file *data)
 {
 	if(argc==4)
 	{
@@ -61,7 +104,7 @@ void generateBase(cgns_unstructured_file *data)
 	return ;
 }
 
-void generateZone(cgns_unstructured_file *data)
+void generateZone3D(cgns_unstructured_file *data)
 {
 	int err;
 	cgsize_t size[3];
@@ -98,7 +141,7 @@ void generateZone2D(cgns_unstructured_file *data)
 	return;
 }
 
-void generateCoordinates(cgns_unstructured_file *data)
+void generateCoordinates3D(cgns_unstructured_file *data)
 {
 	int err;
 	int i, j, k, entry;
@@ -127,9 +170,9 @@ void generateCoordinates(cgns_unstructured_file *data)
 			for(k=0 ; k<NZ ; ++k)
 			{
 				entry = i + j*NX + k*NX*NY;
-				x[entry] = i;
-				y[entry] = j;
-				z[entry] = k;
+				x[entry] = i*data->dx;
+				y[entry] = j*data->dy;
+				z[entry] = k*data->dz;
 			}
 		}
 	}
@@ -166,8 +209,8 @@ void generateCoordinates2D(cgns_unstructured_file *data)
 		for(j=0 ; j<NY ; ++j)
 		{
 			entry = i + j*NX;
-			x[entry] = i;
-			y[entry] = j;
+			x[entry] = i*data->dx;
+			y[entry] = j*data->dy;
 		}
 	}
 	/* Write coordinates */
@@ -178,7 +221,7 @@ void generateCoordinates2D(cgns_unstructured_file *data)
 	free(y);
 }
 
-void generateElementsConnectivity(cgns_unstructured_file *data)
+void generateElementsConnectivity3D(cgns_unstructured_file *data)
 {
 	int i, j, k;
 	int numberOfElements, elementNumber, firstVerticeIndex;

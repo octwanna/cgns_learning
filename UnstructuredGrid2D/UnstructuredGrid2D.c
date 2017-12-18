@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	int err;
 	cgns_unstructured_file data;
 
-	getUserInput(argc, argv, &data);
+	getUserInput2D(argc, argv, &data);
 
 	strcpy(data.fileName, "/home/guesser/cgns_examples/output/UnstructuredGrid2D.cgns");
 	strcpy(data.baseName, "Simple structured grid");
