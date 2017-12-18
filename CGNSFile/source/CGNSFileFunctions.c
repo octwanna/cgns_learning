@@ -32,14 +32,14 @@ void getDistancesFromUserInput(int argc, char *argv[], cgns_unstructured_file *d
 {
 	if(argc==4)
 	{
-		data-lengthX = data->nx;
-		data-lengthY = data->ny;
-		data-lengthZ = data->nz;
+		data->lengthX = data->nx;
+		data->lengthY = data->ny;
+		data->lengthZ = data->nz;
 	}
 	if(argc==7){
-		data-lengthX = atof(argv[4]);
-		data-lengthY = atof(argv[5]);
-		data-lengthZ = atof(argv[6]);
+		data->lengthX = atof(argv[4]);
+		data->lengthY = atof(argv[5]);
+		data->lengthZ = atof(argv[6]);
 	}
 	data->dx = data->lengthX/(data->nx-1);
 	data->dy = data->lengthY/(data->ny-1);
@@ -50,14 +50,14 @@ void getDistancesFromUserInput(int argc, char *argv[], cgns_unstructured_file *d
 void generateCGNSFile(cgns_unstructured_file *data)
 {
 	int err;
-	err = cg_open(data.fileName, CG_MODE_WRITE, &(data.file)); CHKERRQ(err);
+	err = cg_open(data->fileName, CG_MODE_WRITE, &(data->file)); CHKERRQ(err);
 	return ;
 }
 
-void generateBase
+void generateBase(cgns_unstructured_file *data)
 {
 	int err;
-	err = cg_base_write(data.file, data.baseName, data.cellDimension, data.physicalDimension, &(data.base)); CHKERRQ(err);
+	err = cg_base_write(data->file, data->baseName, data->cellDimension, data->physicalDimension, &(data->base)); CHKERRQ(err);
 	return ;
 }
 

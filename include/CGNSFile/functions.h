@@ -5,7 +5,9 @@
 
 void getUserInput(int argc, char *argv[], cgns_unstructured_file *data);
 
-void generate_zone(cgns_unstructured_file *data);
+void generateCGNSFile(cgns_unstructured_file *data);
+void generateBase(cgns_unstructured_file *data);
+void generateZone(cgns_unstructured_file *data);
 void generateCoordinates(cgns_unstructured_file *data);
 void generateElementsConnectivity(cgns_unstructured_file *data);
 
