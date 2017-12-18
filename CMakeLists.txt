@@ -31,7 +31,7 @@ endmacro ()
 
 add_subdirectory (CGNSFile)
 add_subdirectory (structured_grid_simple)
-add_subdirectory (unstructuredGridSimple)
+add_subdirectory (UnstructuredGrid3DExample)
 add_subdirectory (my_structured_grid_simple)
 add_subdirectory (StructuredGrid3D)
 add_subdirectory (StructuredGrid2D)

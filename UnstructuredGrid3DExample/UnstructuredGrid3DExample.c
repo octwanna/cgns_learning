@@ -33,7 +33,7 @@ int main()
     int index_base,index_zone,index_coord,ielem_no;
     int ifirstnode,nbdyelem,index_section;
     char basename[33],zonename[33];
-	char fileName[] = "/home/guesser/cgns_examples/output/Example_UnstructuredGrid3D.cgns";
+	char fileName[] = "/home/guesser/cgns_examples/output/UnstructuredGrid3DExample.cgns";
 
     printf("\nProgram write_grid_unst\n");
 
