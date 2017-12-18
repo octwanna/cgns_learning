@@ -102,7 +102,6 @@ relationships:
 */
           ifirstnode=i+(j-1)*ni+(k-1)*ni*nj;
           ielem[ielem_no][0]=ifirstnode;
-		  printf("ifirstnode = %d\n", ifirstnode);
           ielem[ielem_no][1]=ifirstnode+1;
           ielem[ielem_no][2]=ifirstnode+1+ni;
           ielem[ielem_no][3]=ifirstnode+ni;

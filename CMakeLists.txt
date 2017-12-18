@@ -37,6 +37,7 @@ add_subdirectory (StructuredGrid3D)
 add_subdirectory (StructuredGrid2D)
 add_subdirectory (UnstructuredGrid3D)
 add_subdirectory (UnstructuredGrid2D)
+add_subdirectory (writeFieldExample)
 
 message ("\n-- Project: ${PROJECT_NAME} ${VERSION}")
 message ("-- Install prefix: ${CMAKE_INSTALL_PREFIX}\n")
