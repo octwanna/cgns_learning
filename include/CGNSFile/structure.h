@@ -8,9 +8,6 @@
 
 #define CHKERRQ(err) if((err)) cg_error_exit()
 
-#define PHYSICAL_DIMENSION 3
-#define CELL_DIMENSION 3
-
 #define MAX_STRING_LEN 200
 
 typedef struct cgns_unstructured_file

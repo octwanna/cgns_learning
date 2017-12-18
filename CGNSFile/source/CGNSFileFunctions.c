@@ -80,6 +80,24 @@ void generateZone(cgns_unstructured_file *data)
 	return;
 }
 
+void generateZone2D(cgns_unstructured_file *data)
+{
+	int err;
+	cgsize_t size[3];
+	const int NX = data->nx;
+	const int NY = data->ny;
+
+	/* Define zone size */
+	size[0] = NX*NY;
+	size[1] = (NX-1)*(NY-1);
+	size[2] = 0;
+
+	/* Open zone */
+	err = cg_zone_write(data->file, data->base, data->zoneName, size, Unstructured, &(data->zone)); CHKERRQ(err);
+
+	return;
+}
+
 void generateCoordinates(cgns_unstructured_file *data)
 {
 	int err;
@@ -125,6 +143,41 @@ void generateCoordinates(cgns_unstructured_file *data)
 	free(z);
 }
 
+void generateCoordinates2D(cgns_unstructured_file *data)
+{
+	int err;
+	int i, j, entry;
+	const int NX = data->nx;
+	const int NY = data->ny;
+
+	double * x;
+	double * y;
+
+	char coorXName[] = "CoordinateX";
+	char coorYName[] = "CoordinateY";
+
+	/* Alloc coordinates */
+	x = (double *) malloc(NX*NY*sizeof(double**));
+	y = (double *) malloc(NX*NY*sizeof(double**));
+
+	/* Generate coordinates values */
+	for(i=0 ; i<NX ; ++i)
+	{
+		for(j=0 ; j<NY ; ++j)
+		{
+			entry = i + j*NX;
+			x[entry] = i;
+			y[entry] = j;
+		}
+	}
+	/* Write coordinates */
+	err = cg_coord_write(data->file, data->base, data->zone, CGNS_ENUMV(RealDouble), coorXName, x, &(data->coorX)); CHKERRQ(err);
+	err = cg_coord_write(data->file, data->base, data->zone, CGNS_ENUMV(RealDouble), coorYName, y, &(data->coorY)); CHKERRQ(err);
+
+	free(x);
+	free(y);
+}
+
 void generateElementsConnectivity(cgns_unstructured_file *data)
 {
 	int i, j, k;
@@ -165,4 +218,36 @@ void generateElementsConnectivity(cgns_unstructured_file *data)
 	cg_section_write(data->file, data->base, data->zone, data->sectionName, CGNS_ENUMV(HEXA_8), firstElementNumber, lastElementNumber, 0, hexaedronConnectivity, &(data->section));
 
 	free(hexaedronConnectivity);
+}
+
+void generateElementsConnectivity2D(cgns_unstructured_file *data)
+{
+	int i, j;
+	int numberOfElements, elementNumber, firstVerticeIndex;
+	cgsize_t *quadrangleConnectivity;
+	cgsize_t firstElementNumber = 1;
+	cgsize_t lastElementNumber;
+
+	const int NX = data->nx;
+	const int NY = data->ny;
+
+	numberOfElements = (NX-1)*(NY-1);
+	quadrangleConnectivity = (cgsize_t *) malloc(4*numberOfElements*sizeof(cgsize_t));
+	for(i=0 ; i<(NX-1) ; ++i)
+	{
+		for(j=0 ; j<(NY-1) ; ++j)
+		{
+			elementNumber = i + (NX-1)*j;
+			firstVerticeIndex = i + j*NX;
+			quadrangleConnectivity[4*elementNumber+0] = 1 + firstVerticeIndex;
+			quadrangleConnectivity[4*elementNumber+1] = 1 + firstVerticeIndex + 1;
+			quadrangleConnectivity[4*elementNumber+2] = 1 + firstVerticeIndex + NX + 1;
+			quadrangleConnectivity[4*elementNumber+3] = 1 + firstVerticeIndex + NX;
+		}
+	}
+	lastElementNumber = numberOfElements;
+	cg_section_write(data->file, data->base, data->zone, data->sectionName, CGNS_ENUMV(QUAD_4), firstElementNumber, lastElementNumber, 0, quadrangleConnectivity, &(data->section));
+
+	free(quadrangleConnectivity);
+	return ;
 }
