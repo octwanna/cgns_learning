@@ -7,6 +7,7 @@ void getUserInput3D(int argc, char *argv[], cgns_unstructured_file *data);
 void getUserInput2D(int argc, char *argv[], cgns_unstructured_file *data);
 
 void generateCGNSFile(cgns_unstructured_file *data);
+void openCGNSFile(cgns_unstructured_file *data);
 void generateBase(cgns_unstructured_file *data);
 
 void generateZone3D(cgns_unstructured_file *data);

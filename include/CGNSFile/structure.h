@@ -16,13 +16,16 @@ typedef struct cgns_unstructured_file
 	char baseName[MAX_STRING_LEN];
 	char zoneName[MAX_STRING_LEN];
 	char sectionName[MAX_STRING_LEN];
+	char solutionName[MAX_STRING_LEN];
 
 	int nx, ny, nz;
 	double lengthX, lengthY, lengthZ;
 	double dx, dy, dz;
 
-	int file, base, zone, section;
+	int file, base, zone, section, solution;
 	int cellDimension, physicalDimension;
+	ZoneType_t zonetype;
+	cgsize_t size[9];
 
 	int coorX, coorY, coorZ;
 } cgns_unstructured_file;

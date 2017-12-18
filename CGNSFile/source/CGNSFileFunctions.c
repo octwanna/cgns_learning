@@ -97,6 +97,13 @@ void generateCGNSFile(cgns_unstructured_file *data)
 	return ;
 }
 
+void openCGNSFile(cgns_unstructured_file *data)
+{
+	int err;
+	err = cg_open(data->fileName, CG_MODE_MODIFY, &(data->file)); CHKERRQ(err);
+	return ;
+}
+
 void generateBase(cgns_unstructured_file *data)
 {
 	int err;

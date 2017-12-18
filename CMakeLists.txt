@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED (VERSION 3.6)
 
 set (CMAKE_C_COMPILER "gcc")
 set (CMAKE_CXX_COMPILER "g++")
-set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++14 -Wno-expansion-to-defined -Wno-deprecated-declarations -Wunused-variable" CACHE STRING "Setting default compiler flags.")
+set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g -std=c++14 -Wno-expansion-to-defined -Wno-deprecated-declarations -Wunused-variable" CACHE STRING "Setting default compiler flags.")
 
 project (cgns_examples)
 set (VERSION_MAJOR "0")
@@ -38,6 +38,7 @@ add_subdirectory (StructuredGrid2D)
 add_subdirectory (UnstructuredGrid3D)
 add_subdirectory (UnstructuredGrid2D)
 add_subdirectory (writeFieldExample)
+add_subdirectory (GeneratePressureField)
 
 message ("\n-- Project: ${PROJECT_NAME} ${VERSION}")
 message ("-- Install prefix: ${CMAKE_INSTALL_PREFIX}\n")
