@@ -1,7 +1,67 @@
 #include "CGNSFile/structure.h"
 #include "CGNSFile/functions.h"
 
-void generate_zone(cgns_unstructured_file *data)
+void getUserInput(int argc, char *argv[], cgns_unstructured_file *data)
+{
+	verifyUserInput(argc);
+	getNumberOfVerticesFromUserInput(argc, argv, data);
+	getDistancesFromUserInput(argc, argv, data);
+}
+
+void verifyUserInput(int argc)
+{
+	if(argc!=4 && argc!=7)
+	{
+		fprintf(stdout, "Usage:\n");
+		fprintf(stdout, "\tprogram NX NY NZ\n");
+		fprintf(stdout, "or\n");
+		fprintf(stdout, "\tprogram NX NY NZ LX LY LZ\n");
+		exit(EXIT_FAILURE);
+	}
+	return ;
+}
+
+void getNumberOfVerticesFromUserInput(int argc, char *argv[], cgns_unstructured_file *data)
+{
+	data->nx = atoi(argv[1]);
+	data->ny = atoi(argv[2]);
+	data->nz = atoi(argv[3]);
+	return ;
+}
+void getDistancesFromUserInput(int argc, char *argv[], cgns_unstructured_file *data)
+{
+	if(argc==4)
+	{
+		data-lengthX = data->nx;
+		data-lengthY = data->ny;
+		data-lengthZ = data->nz;
+	}
+	if(argc==7){
+		data-lengthX = atof(argv[4]);
+		data-lengthY = atof(argv[5]);
+		data-lengthZ = atof(argv[6]);
+	}
+	data->dx = data->lengthX/(data->nx-1);
+	data->dy = data->lengthY/(data->ny-1);
+	data->dz = data->lengthZ/(data->nz-1);
+	return ;
+}
+
+void generateCGNSFile(cgns_unstructured_file *data)
+{
+	int err;
+	err = cg_open(data.fileName, CG_MODE_WRITE, &(data.file)); CHKERRQ(err);
+	return ;
+}
+
+void generateBase
+{
+	int err;
+	err = cg_base_write(data.file, data.baseName, data.cellDimension, data.physicalDimension, &(data.base)); CHKERRQ(err);
+	return ;
+}
+
+void generateZone(cgns_unstructured_file *data)
 {
 	int err;
 	cgsize_t size[3];

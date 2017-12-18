@@ -21,6 +21,8 @@ typedef struct cgns_unstructured_file
 	char sectionName[MAX_STRING_LEN];
 
 	int nx, ny, nz;
+	double lengthX, lengthY, lengthZ;
+	double dx, dy, dz;
 
 	int file, base, zone, section;
 	int cellDimension, physicalDimension;

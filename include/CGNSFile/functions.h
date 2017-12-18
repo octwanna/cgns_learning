@@ -3,8 +3,15 @@
 
 #include "CGNSFile/structure.h"
 
+void getUserInput(int argc, char *argv[], cgns_unstructured_file *data);
+
 void generate_zone(cgns_unstructured_file *data);
 void generateCoordinates(cgns_unstructured_file *data);
 void generateElementsConnectivity(cgns_unstructured_file *data);
+
+/* Private */
+void verifyUserInput(int argc);
+void getNumberOfVerticesFromUserInput(int argc, char *argv[], cgns_unstructured_file *data);
+void getDistancesFromUserInput(int argc, char *argv[], cgns_unstructured_file *data);
 
 #endif
