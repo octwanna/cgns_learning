@@ -38,6 +38,7 @@ add_subdirectory (StructuredGrid2D)
 add_subdirectory (UnstructuredGrid3D)
 add_subdirectory (UnstructuredGrid2D)
 add_subdirectory (writeFieldExample)
+add_subdirectory (writeTransientExample)
 add_subdirectory (GeneratePressureField)
 
 message ("\n-- Project: ${PROJECT_NAME} ${VERSION}")
