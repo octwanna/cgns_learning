@@ -8,7 +8,7 @@
 
 #define CHKERRQ(err) if((err)) cg_error_exit()
 
-#define MAX_STRING_LEN 200
+#define MAX_STRING_LEN 900
 
 typedef struct cgns_unstructured_file
 {
