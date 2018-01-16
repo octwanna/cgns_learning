@@ -40,7 +40,7 @@ add_subdirectory (UnstructuredGrid2D)
 add_subdirectory (writeFieldExample)
 add_subdirectory (writeTransientExample)
 add_subdirectory (GeneratePressureField)
-add_subdirectory (GenerateTransientField)
+add_subdirectory (GenerateTransientPressureField)
 
 message ("\n-- Project: ${PROJECT_NAME} ${VERSION}")
 message ("-- Install prefix: ${CMAKE_INSTALL_PREFIX}\n")
