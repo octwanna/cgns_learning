@@ -10,8 +10,11 @@
 
 #define MAX_STRING_LEN 200
 
+typedef enum Dimension {two_dimensional, three_dimensional} Dimension;
+
 typedef struct cgns_unstructured_file
 {
+	Dimension dimension;
 	char fileName[MAX_STRING_LEN];
 	char baseName[MAX_STRING_LEN];
 	char zoneName[MAX_STRING_LEN];

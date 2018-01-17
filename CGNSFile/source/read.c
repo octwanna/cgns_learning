@@ -11,6 +11,17 @@ void verify(int toCheck, int correct, char *errorMessage)
 	}
 	return;
 }
+
+int simpleReadFile2(cgns_unstructured_file *data, Dimension dimension)
+{
+	/* Open file */	
+	readFile2(data, dimension);
+	readBase(data);
+	readZone(data);
+	readGrid(data);
+	readGridCoordinates(data);
+}
+
 int simpleReadFile(cgns_unstructured_file *data)
 {
 	/* Open file */	
@@ -19,6 +30,15 @@ int simpleReadFile(cgns_unstructured_file *data)
 	readZone(data);
 	readGrid(data);
 	readGridCoordinates(data);
+}
+
+void readFile2(cgns_unstructured_file *data, Dimension dimension)
+{
+	if(dimension==two_dimensional) strcpy(data->fileName, "/home/guesser/cgns_examples/output/UnstructuredGrid2D.cgns");
+	if(dimension==three_dimensional) strcpy(data->fileName, "/home/guesser/cgns_examples/output/UnstructuredGrid3D.cgns");
+	strcpy(data->solutionName, "FlowSolution");
+	openCGNSFile(data);
+	return ;
 }
 
 void readFile(cgns_unstructured_file *data)
