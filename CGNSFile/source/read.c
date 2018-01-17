@@ -19,7 +19,7 @@ int simpleReadFile2(cgns_unstructured_file *data, Dimension dimension)
 	readBase2(data, dimension);
 	readZone(data);
 	readGrid(data);
-	readGridCoordinates(data);
+	readGridCoordinates2(data, dimension);
 }
 
 int simpleReadFile(cgns_unstructured_file *data)
@@ -117,11 +117,8 @@ void readGridCoordinates2(cgns_unstructured_file *data, Dimension dimension)
 	int err, numberOfCoordinates;
 	cgsize_t range_min, range_max;
 	err = cg_ncoords(data->file, data->base, data->zone, &numberOfCoordinates); CHKERRQ(err);
-	if(numberOfCoordinates!=3)
-	{
-		fprintf(stderr, "Wrong number of coordinates. It should be 3!\n\n");
-		cg_error_exit();
-	}
+	if(dimension==two_dimensional) verify(numberOfCoordinates, 2, "Wrong number of coordinates. It should be 2!\n\n");
+	if(dimension==three_dimensional) verify(numberOfCoordinates, 3, "Wrong number of coordinates. It should be 3!\n\n");
 	data->x = (double *) malloc(data->size[0]*sizeof(double));
 	data->y = (double *) malloc(data->size[0]*sizeof(double));
 	if(dimension==three_dimensional)
