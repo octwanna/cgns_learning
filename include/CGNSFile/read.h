@@ -8,9 +8,11 @@ int simpleReadFile2(cgns_unstructured_file *data, Dimension dimension);
 int simpleReadFile(cgns_unstructured_file *data) __attribute__ ((deprecated));
 void readFile2(cgns_unstructured_file *data, Dimension dimension);
 void readFile(cgns_unstructured_file *data) __attribute__ ((deprecated));
-void readBase(cgns_unstructured_file *data);
+void readBase2(cgns_unstructured_file *data, Dimension dimension);
+void readBase(cgns_unstructured_file *data) __attribute__ ((deprecated));
 void readZone(cgns_unstructured_file *data);
 void readGrid(cgns_unstructured_file *data);
-void readGridCoordinates(cgns_unstructured_file *data);
+void readGridCoordinates2(cgns_unstructured_file *data, Dimension dimension);
+void readGridCoordinates(cgns_unstructured_file *data) __attribute__ ((deprecated));
 
 #endif

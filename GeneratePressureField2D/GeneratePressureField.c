@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
 	int field;
 
-	simpleReadFile(&data);
+	simpleReadFile2(&data, two_dimensional);
 	/* Read the grid */
 	err = cg_ngrids(data.file, data.base, data.zone, &numberOfGrids); CHKERRQ(err);
 	if(numberOfGrids!=1)
