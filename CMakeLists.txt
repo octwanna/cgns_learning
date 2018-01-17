@@ -42,6 +42,7 @@ add_subdirectory (writeTransientExample)
 add_subdirectory (GeneratePressureField)
 add_subdirectory (GeneratePressureField2D)
 add_subdirectory (GenerateTransientPressureField)
+add_subdirectory (GenerateTransientPressureField2D)
 
 message ("\n-- Project: ${PROJECT_NAME} ${VERSION}")
 message ("-- Install prefix: ${CMAKE_INSTALL_PREFIX}\n")
