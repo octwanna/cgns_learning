@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
 	int field;
 
-	simpleReadFile2(&data, two_dimensional);
+	simpleReadFile(&data, two_dimensional);
 
 	/* Create pressure field */
 	pressure = (double *) malloc(data.numberOfVertices*sizeof(double));

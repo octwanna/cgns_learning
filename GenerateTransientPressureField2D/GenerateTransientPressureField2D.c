@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	cgsize_t solutionNameDimension[2];
 	char * solutionNames;
 
-	simpleReadFile2(&data, two_dimensional);
+	simpleReadFile(&data, two_dimensional);
 
 	/* Transient solution */
 	numberOfTimeSteps = 20;

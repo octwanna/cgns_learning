@@ -12,17 +12,17 @@ void verify(int toCheck, int correct, char *errorMessage)
 	return;
 }
 
-int simpleReadFile2(cgns_unstructured_file *data, Dimension dimension)
+void simpleReadFile(cgns_unstructured_file *data, Dimension dimension)
 {
 	/* Open file */	
-	readFile2(data, dimension);
-	readBase2(data, dimension);
+	readFile(data, dimension);
+	readBase(data, dimension);
 	readZone(data);
 	readGrid(data);
-	readGridCoordinates2(data, dimension);
+	readGridCoordinates(data, dimension);
 }
 
-void readFile2(cgns_unstructured_file *data, Dimension dimension)
+void readFile(cgns_unstructured_file *data, Dimension dimension)
 {
 	if(dimension==two_dimensional) strcpy(data->fileName, "/home/guesser/cgns_examples/output/UnstructuredGrid2D.cgns");
 	if(dimension==three_dimensional) strcpy(data->fileName, "/home/guesser/cgns_examples/output/UnstructuredGrid3D.cgns");
@@ -31,7 +31,7 @@ void readFile2(cgns_unstructured_file *data, Dimension dimension)
 	return ;
 }
 
-void readBase2(cgns_unstructured_file *data, Dimension dimension)
+void readBase(cgns_unstructured_file *data, Dimension dimension)
 {
 	int err, numberOfBases;
 	err = cg_nbases(data->file, &numberOfBases); CHKERRQ(err);
@@ -82,7 +82,7 @@ void readGrid(cgns_unstructured_file *data)
 	err = cg_grid_read(data->file, data->base, data->zone, data->grid, data->gridName); CHKERRQ(err);
 }
 
-void readGridCoordinates2(cgns_unstructured_file *data, Dimension dimension)
+void readGridCoordinates(cgns_unstructured_file *data, Dimension dimension)
 {
 	int err, numberOfCoordinates;
 	cgsize_t range_min, range_max;
