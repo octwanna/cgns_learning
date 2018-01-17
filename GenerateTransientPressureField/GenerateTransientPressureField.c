@@ -7,13 +7,6 @@ int main(int argc, char *argv[])
 	int err;
 	cgns_unstructured_file data;
 
-	int numberOfGrids, gridNumber;
-	char gridName[MAX_STRING_LEN];
-	int numberOfCoordinates;
-	double *x, *y, *z;
-
-	cgsize_t range_min, range_max;
-
 	int entry, count;
 	double *pressure;
 
@@ -30,39 +23,19 @@ int main(int argc, char *argv[])
 	char * solutionNames;
 
 	simpleReadFile(&data);
-	/* Read the grid */
-	err = cg_ngrids(data.file, data.base, data.zone, &numberOfGrids); CHKERRQ(err);
-	if(numberOfGrids!=1)
-	{
-		fprintf(stderr, "Wrong number of grids. It should be 1!\n\n");
-		cg_error_exit();
-	}
-	gridNumber = 1;
-	err = cg_grid_read(data.file, data.base, data.zone, gridNumber, gridName); CHKERRQ(err);
-
-	/* Read coordinates */
-	err = cg_ncoords(data.file, data.base, data.zone, &numberOfCoordinates); CHKERRQ(err);
-	x = (double *) malloc(data.size[0]*sizeof(double));
-	y = (double *) malloc(data.size[0]*sizeof(double));
-	z = (double *) malloc(data.size[0]*sizeof(double));
-	range_min = 1;
-	range_max = data.size[0];
-	err = cg_coord_read(data.file, data.base, data.zone, "CoordinateX", CGNS_ENUMV(RealDouble), &range_min, &range_max, x); CHKERRQ(err);
-	err = cg_coord_read(data.file, data.base, data.zone, "CoordinateY", CGNS_ENUMV(RealDouble), &range_min, &range_max, y); CHKERRQ(err);
-	err = cg_coord_read(data.file, data.base, data.zone, "CoordinateZ", CGNS_ENUMV(RealDouble), &range_min, &range_max, z); CHKERRQ(err);
 
 	/* Transient solution */
 	numberOfTimeSteps = 20;
 	deltaT = 1;
-	pressure = (double *) malloc(data.size[0]*sizeof(double));
+	pressure = (double *) malloc(data.numberOfVertices*sizeof(double));
 	pressureSolutionName = (char **) malloc(numberOfTimeSteps*sizeof(char*));
 	for(timeStep=0 ; timeStep<numberOfTimeSteps ; ++timeStep)
 	{
 		timeInstant = timeStep * deltaT;
-		pressureSolutionName[timeStep] = (char *) malloc(MAX_STRING_LEN * sizeof(char));
+		pressureSolutionName[timeStep] = (char *) malloc(12 * sizeof(char));/* 12 because 'pressure_01\0' is a 12 character string */
 		sprintf(pressureSolutionName[timeStep], "pressure_%02d", timeStep+1); /* Paraview start at one */
 		/*printf("\npressure solution name, time step %d: %s\n\n", timeStep, pressureSolutionName[timeStep]);*/
-		for(count=0 ; count<data.size[0] ; ++count)
+		for(count=0 ; count<data.numberOfVertices ; ++count)
 			pressure[count] = count * timeInstant;
 
 		/* Write field */
@@ -78,7 +51,7 @@ int main(int argc, char *argv[])
 	timeArray = (double*) malloc(numberOfTimeSteps * sizeof(double));
 	timeArrayDimension[0] = numberOfTimeSteps;
 	for(timeStep=0 ; timeStep<numberOfTimeSteps ; ++timeStep)
-		timeArray[timeStep] = timeStep;
+		timeArray[timeStep] = deltaT * timeStep;
 	err = cg_goto(data.file, data.base, iterativeBaseName, 0, "end"); CHKERRQ(err);
 	err = cg_array_write("TimeValues", CGNS_ENUMV(RealDouble), 1, timeArrayDimension, timeArray); CHKERRQ(err);
 
@@ -87,9 +60,9 @@ int main(int argc, char *argv[])
     cg_ziter_write(data.file, data.base, data.zone, iterativeZoneName);
 	err = cg_goto(data.file, data.base, "Zone_t", data.zone, iterativeZoneName, 0, "end"); CHKERRQ(err);
 
-	solutionNameDimension[0] = 11;
+	solutionNameDimension[0] = 11; /* 11 because 'pressure_01' is a 11 character string */
 	solutionNameDimension[1] = numberOfTimeSteps;
-	solutionNames = (char*) malloc(100*numberOfTimeSteps*sizeof(char));
+	solutionNames = (char*) malloc(12*numberOfTimeSteps*sizeof(char));
 	strcpy(solutionNames, "\0");
 	for(timeStep=0 ; timeStep<numberOfTimeSteps ; ++timeStep)
 		strcat(solutionNames, pressureSolutionName[timeStep]);

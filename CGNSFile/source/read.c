@@ -17,6 +17,8 @@ int simpleReadFile(cgns_unstructured_file *data)
 	readFile(data);
 	readBase(data);
 	readZone(data);
+	readGrid(data);
+	readGridCoordinates(data);
 }
 
 void readFile(cgns_unstructured_file *data)
@@ -53,5 +55,40 @@ void readZone(cgns_unstructured_file *data)
 	}
 	err = cg_zone_read(data->file, data->base, data->zone, data->zoneName, &(data->size)); CHKERRQ(err);
 	verify(data->cellDimension, 3, "File with cell dimension different of 3!\n\n");
+	data->numberOfVertices = data->size[0];
+	data->numberOfElements = data->size[1];
 	return;
+}
+
+void readGrid(cgns_unstructured_file *data)
+{
+	int err, numberOfGrids;
+	err = cg_ngrids(data->file, data->base, data->zone, &numberOfGrids); CHKERRQ(err);
+	if(numberOfGrids!=1)
+	{
+		fprintf(stderr, "Wrong number of grids. It should be 1!\n\n");
+		cg_error_exit();
+	}
+	data->grid = 1;
+	err = cg_grid_read(data->file, data->base, data->zone, data->grid, data->gridName); CHKERRQ(err);
+}
+
+void readGridCoordinates(cgns_unstructured_file *data)
+{
+	int err, numberOfCoordinates;
+	cgsize_t range_min, range_max;
+	err = cg_ncoords(data->file, data->base, data->zone, &numberOfCoordinates); CHKERRQ(err);
+	if(numberOfCoordinates!=3)
+	{
+		fprintf(stderr, "Wrong number of coordinates. It should be 3!\n\n");
+		cg_error_exit();
+	}
+	data->x = (double *) malloc(data->size[0]*sizeof(double));
+	data->y = (double *) malloc(data->size[0]*sizeof(double));
+	data->z = (double *) malloc(data->size[0]*sizeof(double));
+	range_min = 1;
+	range_max = data->size[0];
+	err = cg_coord_read(data->file, data->base, data->zone, "CoordinateX", CGNS_ENUMV(RealDouble), &range_min, &range_max, data->x); CHKERRQ(err);
+	err = cg_coord_read(data->file, data->base, data->zone, "CoordinateY", CGNS_ENUMV(RealDouble), &range_min, &range_max, data->y); CHKERRQ(err);
+	err = cg_coord_read(data->file, data->base, data->zone, "CoordinateZ", CGNS_ENUMV(RealDouble), &range_min, &range_max, data->z); CHKERRQ(err);
 }

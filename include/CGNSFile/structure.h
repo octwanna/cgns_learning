@@ -17,17 +17,20 @@ typedef struct cgns_unstructured_file
 	char zoneName[MAX_STRING_LEN];
 	char sectionName[MAX_STRING_LEN];
 	char solutionName[MAX_STRING_LEN];
+	char gridName[MAX_STRING_LEN];
 
 	int nx, ny, nz;
 	double lengthX, lengthY, lengthZ;
 	double dx, dy, dz;
 
-	int file, base, zone, section, solution;
+	int file, base, zone, section, solution, grid;
 	int cellDimension, physicalDimension;
 	ZoneType_t zonetype;
 	cgsize_t size[9];
+	int numberOfVertices, numberOfElements;
 
 	int coorX, coorY, coorZ;
+	double *x, *y, *z;
 } cgns_unstructured_file;
 
 #endif

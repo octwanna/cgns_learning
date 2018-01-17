@@ -301,3 +301,10 @@ void generateElementsConnectivity2D(cgns_unstructured_file *data)
 	free(quadrangleConnectivity);
 	return ;
 }
+
+void generateSimulationType_TimeAccurate(cgns_unstructured_file *data)
+{
+	int err;
+	err = cg_simulation_type_write(data->file, data->base, CGNS_ENUMV(TimeAccurate)); CHKERRQ(err);
+	return;
+}
