@@ -1,4 +1,4 @@
-project (GeneratePressureField)
+project (GeneratePressureField3D)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
